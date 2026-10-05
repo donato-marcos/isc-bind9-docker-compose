@@ -1,0 +1,20 @@
+options {
+        directory "/var/cache/bind";
+        pid-file "/run/named/named.pid";
+
+        // Endereços em que o named escuta dentro do container.
+        // 0.0.0.0/:: porque o tráfego chega via publicação de portas do Docker.
+        listen-on { any; };
+        listen-on-v6 { any; };
+
+        // Desabilita recursão para clientes externos (apenas localhost)
+        allow-recursion { localhost; };
+
+        allow-transfer { none; };
+        allow-update { none; };
+
+        // Version string genérica, evita vazar a versão exata do BIND.
+        version "not disclosed";
+
+        dnssec-validation auto;
+};

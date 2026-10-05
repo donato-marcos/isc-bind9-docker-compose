@@ -1,0 +1,27 @@
+logging {
+        channel default_log {
+                file "/var/log/bind/default.log" versions 3 size 5m;
+                severity info;
+                print-time yes;
+                print-severity yes;
+                print-category yes;
+        };
+
+        channel queries_log {
+                file "/var/log/bind/queries.log" versions 3 size 5m;
+                severity info;
+                print-time yes;
+        };
+
+        channel security_log {
+                file "/var/log/bind/security.log" versions 3 size 5m;
+                severity info;
+                print-time yes;
+                print-severity yes;
+        };
+
+        category default   { default_log; };
+        category general   { default_log; };
+        category queries   { queries_log; };
+        category security  { security_log; };
+};

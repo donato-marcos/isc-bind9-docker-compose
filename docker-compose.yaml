@@ -1,0 +1,76 @@
+---
+name: dns-server
+
+services:
+  bind9-primary:
+    image: internetsystemsconsortium/bind9:${VERSION:-9.20}
+    restart: unless-stopped
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - >
+          rndc status | grep -iq "server is up and running" &&
+          dig @localhost SOA ${DOMAIN:-teste.local} | grep -q "status: NOERROR"
+    environment:
+      - TZ=${TZ:-UTC}
+    networks:
+      dns-net:
+        ipv4_address: ${PRIMARY_IP:-172.20.0.10}
+    ports:
+      - "${PRIMARY_DNS_UDP_PORT:-53}:53/udp"
+      - "${PRIMARY_DNS_TCP_PORT:-53}:53/tcp"
+      - "127.0.0.1:${PRIMARY_RNDC_PORT:-953}:953/tcp"
+    volumes:
+      - ./primary/config/bind:/etc/bind
+      - bind_primary_cache:/var/cache/bind
+      - bind_primary_lib:/var/lib/bind
+      - bind_primary_logs:/var/log/bind
+      - bind_primary_run:/run/named
+    cap_add:
+      - NET_BIND_SERVICE
+
+  bind9-secondary:
+    image: internetsystemsconsortium/bind9:${VERSION:-9.20}
+    restart: unless-stopped
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - >
+          rndc status | grep -iq "server is up and running" &&
+          dig @localhost SOA ${DOMAIN:-teste.local} | grep -q "status: NOERROR"
+    depends_on:
+      - bind9-primary
+    environment:
+      - TZ=${TZ:-UTC}
+    networks:
+      dns-net:
+        ipv4_address: ${SECONDARY_IP:-172.20.0.11}
+    ports:
+      - "${SECONDARY_DNS_UDP_PORT:-5353}:53/udp"
+      - "${SECONDARY_DNS_TCP_PORT:-5353}:53/tcp"
+      - "127.0.0.1:${SECONDARY_RNDC_PORT:-9953}:953/tcp"
+    volumes:
+      - ./secondary/config/bind:/etc/bind
+      - bind_secondary_cache:/var/cache/bind
+      - bind_secondary_lib:/var/lib/bind
+      - bind_secondary_logs:/var/log/bind
+      - bind_secondary_run:/run/named
+    cap_add:
+      - NET_BIND_SERVICE
+
+networks:
+  dns-net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: ${DNS_NET_SUBNET:-172.20.0.0/24}
+
+volumes:
+  bind_primary_cache:
+  bind_primary_lib:
+  bind_primary_logs:
+  bind_primary_run:
+  bind_secondary_cache:
+  bind_secondary_logs:
+  bind_secondary_lib:
+  bind_secondary_run:

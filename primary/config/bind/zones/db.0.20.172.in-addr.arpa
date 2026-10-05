@@ -1,0 +1,21 @@
+$TTL 86400
+@       IN      SOA     ns1.fatec.local. admin.fatec.local. (
+                        2026070901  ; Serial
+                        3600        ; Refresh
+                        1800        ; Retry
+                        604800      ; Expire
+                        86400 )     ; Minimum TTL
+
+; Name Servers
+@       IN      NS      ns1.fatec.local.
+@       IN      NS      ns2.fatec.local.
+
+; A Records for Name Servers
+ns1     IN      A       172.20.0.10  ; IP Exemplo do Primário
+ns2     IN      A       172.20.0.11 ; IP Exemplo do Secundário
+
+; PTR Records
+10      IN      PTR     ns1.fatec.local.
+11      IN      PTR     ns2.fatec.local.
+100     IN      PTR     www.fatec.local.
+101     IN      PTR     mail.fatec.local.

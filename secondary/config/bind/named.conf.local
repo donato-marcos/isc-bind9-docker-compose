@@ -1,0 +1,17 @@
+// Zona autoritativa direta - substitua pelo seu domínio real
+zone "fatec.lab." {
+        type secondary;
+        file "/var/lib/bind/zones/db.fatec.lab";
+        primaries { 172.20.0.10; }; // IP do primário na rede Docker
+        allow-transfer { none; };
+        allow-query { any; };
+};
+
+// Zona reversa (opcional) - substitua pelo bloco correspondente à sua rede
+zone "1.168.192.in-addr.arpa." {
+        type secondary;
+        file "/var/lib/bind/zones/db.1.168.192.in-addr.arpa";
+        primaries { 172.20.0.10; }; // IP do primário na rede Docker
+        allow-transfer { none; };
+        allow-query { any; };
+};

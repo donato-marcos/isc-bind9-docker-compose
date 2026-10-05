@@ -1,0 +1,41 @@
+$TTL 86400
+@       IN      SOA     ns1.fatec.lab. admin.fatec.lab. (
+                        2026070901  ; Serial (Formato YYYYMMDDNN)
+                        3600        ; Refresh
+                        1800        ; Retry
+                        604800      ; Expire
+                        86400 )     ; Minimum TTL
+
+; Name Servers
+@       IN      NS      ns1.fatec.lab.
+@       IN      NS      ns2.fatec.lab.
+
+; A Records for Name Servers
+ns1     IN      A       192.168.50.10 IP Exemplo do Primário
+ns2     IN      A       192.168.50.11  ; IP Exemplo do Secundário
+
+; A Records for other hosts
+@       IN      A       192.168.1.100
+www     IN      A       192.168.1.100
+www     IN      AAAA    fd00:192:168:1::100
+mail    IN      A       192.168.1.101
+mail    IN      AAAA    fd00:192:168:1::101
+
+swarm-master01  IN A     172.16.11.11
+frontend        IN CNAME swarm-master01
+traefik         IN CNAME swarm-master01
+zabbix          IN CNAME swarm-master01
+grafana         IN CNAME swarm-master01
+prometheus      IN CNAME swarm-master01
+site1           IN CNAME swarm-master01
+site2           IN CNAME swarm-master01
+site3           IN CNAME swarm-master01
+nodered         IN CNAME swarm-master01
+heimdall        IN CNAME swarm-master01
+portainer       IN CNAME swarm-master01
+whoami          IN CNAME swarm-master01
+minio           IN CNAME swarm-master01
+files           IN CNAME swarm-master01
+
+; MX Records
+@       IN      MX      10 mail.fatec.lab.
