@@ -11,7 +11,7 @@ $TTL 86400
 @       IN      NS      ns2.fatec.lab.
 
 ; A Records for Name Servers
-ns1     IN      A       192.168.50.10 IP Exemplo do Primário
+ns1     IN      A       192.168.50.10  ; IP Exemplo do Primário
 ns2     IN      A       192.168.50.11  ; IP Exemplo do Secundário
 
 ; A Records for other hosts
