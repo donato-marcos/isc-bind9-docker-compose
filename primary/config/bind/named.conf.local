@@ -11,7 +11,7 @@ zone "fatec.lab." {
 // Zona reversa (opcional) - substitua pelo bloco correspondente à sua rede
 zone "1.168.192.in-addr.arpa." {
         type primary;
-        file "/etc/bind/zones/db.1.168.192.in-addr.arpa";
+        file "/etc/bind/zones/db.50.168.192.in-addr.arpa";
         allow-transfer { 172.20.0.11; };
         allow-update { none; };
         also-notify { 172.20.0.11; }; // IP do secundário na rede Docker
